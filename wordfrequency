@@ -1,0 +1,13 @@
+#simple program to pull the frequency that words appear in a given file 
+fname = input('Enter file name: ')
+fh = open(fname)
+wordlist = list()
+for line in fh : 
+    line = line.rstrip()
+    words = line.split()
+    for word in words : 
+        if word in wordlist :
+            continue
+        wordlist.append(word)
+wordlist.sort()
+print(wordlist)
