@@ -1,0 +1,18 @@
+#grabs a file and finds the ditribution of when emails are sent by hour 
+
+name = input('Enter file name: ')
+if len(name) < 1 : 
+    name = "mbox-short.txt"
+handle = open(name)
+counts = dict()
+for line in handle : 
+    if not line.startswith('From ') :
+        continue 
+    line = line.rstrip()
+    words = line.split()
+    total_time = words[5]
+    time = total_time.split(':')
+    hour = total_time[:2]
+    counts[hour] = counts.get(hour, 0) + 1
+for k,v in sorted(counts.items()) : 
+    print(k,v)
