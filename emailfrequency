@@ -1,0 +1,27 @@
+#simple program to read file, pull email addresses from received emails, count them, and return the highest frequency sender
+
+fname = input("Enter file:")
+if len(fname) < 1:
+    fname = "mbox-short.txt"
+handle = open(fname)
+
+#adding emails to dictionary and counting
+counts = dict()
+for line in handle : 
+    if not line.startswith('From ') :
+        continue 
+    line = line.rstrip()
+    words = line.split()
+    for w in words : 
+        counts[w] = counts.get(w, 0) + 1
+
+#comparison and payoff 
+bigemail = None 
+bigcount = None 
+for k, v in counts.items() : 
+    if not '@' in k : 
+        continue
+    if bigcount is None or v > bigcount : 
+        bigword = k
+        bigcount = v
+print(bigword, bigcount)
