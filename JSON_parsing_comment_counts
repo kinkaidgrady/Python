@@ -1,0 +1,37 @@
+import json
+import urllib.request, urllib.parse, urllib.error
+import ssl
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+#prompt user for url input
+while True:
+    address = input('Enter location: ')
+    if len(address) < 1: break
+    
+    #print URL for verificaiton, create handle 
+    print('Retrieving', address)
+    uh = urllib.request.urlopen(address, context=ctx)
+
+    #read and decode data, and print that the length of retrieved data
+    data = uh.read()
+    print('Retrieved', len(data), 'characters')
+    print(data.decode())
+
+    #load data string
+    info = json.loads(data)
+
+    #print json dump to verify data wanted
+    print(json.dumps(info, indent=4)) 
+
+    #simple loop to pull names, counts, and sum up total counts, then print final total of counts 
+    total = 0
+    for item in info['comments']:
+        print('Name', item['name'])
+        print('Count', item['count'])
+        icount = int(item['count'])
+        total = total + icount
+    print('Total Comments: ', total)
